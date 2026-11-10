@@ -4,9 +4,6 @@ ci:
 default_install_hook_types:
   - pre-commit
 
-# The records are written by the Collect records workflow, not by hand.
-exclude: ^records/
-
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v6.0.0
