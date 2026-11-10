@@ -1,0 +1,66 @@
+name: Collect records
+
+# Collects every capsule of every Dandiset repository of the organization with
+# `dandi-validations collect --tags`, from https://github.com/dandi-validations/dandi-validations.
+# The records of each dandi-validation image go to the branch named exactly by its tag:
+#   capsules.tsv   one row per Dandiset validated with that image
+#   capsules.json  the description of its columns
+# main holds only this workflow.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 */6 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  Collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install DANDI Validations
+        run: python -m pip install "dandi-validations @ git+https://github.com/dandi-validations/dandi-validations@main"
+
+      - name: Collect the records
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: dandi-validations collect --output "$RUNNER_TEMP/records" --tags
+
+      - name: Commit each image's records to its branch
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for records in "$RUNNER_TEMP"/records/*/; do
+            tag="$(basename "$records")"
+            branch="$RUNNER_TEMP/branches/$tag"
+            if git ls-remote --exit-code --heads origin "refs/heads/$tag" > /dev/null; then
+              git fetch --quiet --depth 1 origin "+refs/heads/$tag:refs/heads/$tag"
+              git worktree add --quiet "$branch" "$tag"
+            else
+              git worktree add --quiet --orphan -b "$tag" "$branch"
+            fi
+            cp "$records/capsules.tsv" "$records/capsules.json" "$branch/"
+            git -C "$branch" add capsules.tsv capsules.json
+            if git -C "$branch" diff --cached --quiet; then
+              echo "$tag: no changes to the records."
+              continue
+            fi
+            git -C "$branch" commit --quiet -m "Collect the validation records of $tag"
+            git -C "$branch" push --quiet origin "HEAD:refs/heads/$tag"
+            echo "$tag: records updated."
+          done
