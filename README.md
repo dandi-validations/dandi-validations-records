@@ -1,1 +1,1 @@
-# dandi-validations-records
+# DANDI Validations (Records)
