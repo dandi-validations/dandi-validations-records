@@ -1,0 +1,36 @@
+ci:
+  autoupdate_schedule: quarterly
+
+default_install_hook_types:
+  - pre-commit
+
+# The records are written by the Collect records workflow, not by hand.
+exclude: ^records/
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+    - id: check-yaml
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+    - id: check-json
+    - id: check-added-large-files
+    - id: check-case-conflict
+
+- repo: https://github.com/python-jsonschema/check-jsonschema
+  rev: 0.38.2
+  hooks:
+    - id: check-github-workflows
+      args: ["--verbose"]
+
+- repo: https://github.com/CodyCBakerPhD/md-lines-pre-commit
+  rev: v0.1.0
+  hooks:
+    - id: md-lines
+      language_version: python3.13
+
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.4.3
+  hooks:
+  - id: codespell
