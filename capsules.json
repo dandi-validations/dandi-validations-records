@@ -3,7 +3,7 @@
     "Description": "The six-digit Dandiset that was validated."
   },
   "capsule": {
-    "Description": "The capsule's directory: `pipeline-{pipeline}_tag-{image tag}`."
+    "Description": "The capsule's directory: `pipeline-{pipeline}_tag-{image tag}-v{codebase version}`."
   },
   "status": {
     "Description": "Lifecycle status of the capsule's latest run: pending, stalled, failed, successful or unknown.",
