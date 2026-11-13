@@ -1,0 +1,87 @@
+{
+  "dandiset_id": {
+    "Description": "The six-digit Dandiset that was validated."
+  },
+  "capsule": {
+    "Description": "The capsule's directory: `pipeline-{pipeline}_tag-{image tag}-v{codebase version}`."
+  },
+  "status": {
+    "Description": "Lifecycle status of the capsule's latest run: pending, stalled, failed, successful or unknown.",
+    "Levels": {
+      "pending": "A code directory exists, but the capsule has not been submitted.",
+      "stalled": "A submitted marker exists, but nothing has been logged since.",
+      "failed": "Logs exist without results: the run failed, or is still in progress.",
+      "successful": "A derivatives directory exists: the validation completed.",
+      "unknown": "Nothing that would place the capsule in the lifecycle was observed."
+    }
+  },
+  "dandiset_version": {
+    "Description": "The Dandiset version that was validated (e.g. draft)."
+  },
+  "pipeline": {
+    "Description": "The pipeline that formed the capsule."
+  },
+  "version": {
+    "Description": "The dandi-validation image's tag: its validator version code."
+  },
+  "image_digest": {
+    "Description": "Digest of that dandi-validation image on GHCR."
+  },
+  "codebase": {
+    "Description": "The version of dandi-validations that formed the capsule."
+  },
+  "params": {
+    "Description": "Short MD5 of the parameter set file."
+  },
+  "params_key": {
+    "Description": "Name of the registered parameter set."
+  },
+  "source_digest": {
+    "Description": "SHA-256 over each asset's path, size and SHA-256."
+  },
+  "assets": {
+    "Description": "Number of assets in the manifest, each registered in the DataLad dataset that was validated."
+  },
+  "created_at": {
+    "Description": "When the capsule's latest run was formed (UTC)."
+  },
+  "claimed_by": {
+    "Description": "The GitHub Actions run attempt (or host) that ran it."
+  },
+  "run_exit_code": {
+    "Description": "Exit code of the run (0 for a completed validation, whatever it found)."
+  },
+  "wall_clock_seconds": {
+    "Description": "Wall-clock time of `datalad containers-run`, measured by duct."
+  },
+  "peak_rss_bytes": {
+    "Description": "Peak resident memory of the run's process tree, measured by duct."
+  },
+  "total_results": {
+    "Description": "Number of validation results recorded."
+  },
+  "critical": {
+    "Description": "Results of severity CRITICAL."
+  },
+  "error": {
+    "Description": "Results of severity ERROR."
+  },
+  "warning": {
+    "Description": "Results of severity WARNING."
+  },
+  "hint": {
+    "Description": "Results of severity HINT."
+  },
+  "info": {
+    "Description": "Results of severity INFO."
+  },
+  "files_streamed": {
+    "Description": "Files whose content was streamed (DANDI.FILE_CONTENT_STREAMED)."
+  },
+  "files_missing_content": {
+    "Description": "Files that could not be streamed (DANDI.FILE_CONTENT_MISSING)."
+  },
+  "files_with_issues": {
+    "Description": "Files with at least one CRITICAL, ERROR or WARNING result."
+  }
+}
