@@ -37,13 +37,10 @@
     "Description": "Name of the registered parameter set."
   },
   "source_digest": {
-    "Description": "SHA-256 over the registered assets table and dandiset.yaml."
+    "Description": "SHA-256 over each asset's path, size and SHA-256."
   },
   "assets": {
-    "Description": "Number of assets registered in the DataLad dataset that was validated."
-  },
-  "skipped_assets": {
-    "Description": "Number of assets not registered (Zarr, or no SHA-256 digest yet)."
+    "Description": "Number of assets in the manifest, each registered in the DataLad dataset that was validated."
   },
   "created_at": {
     "Description": "When the capsule's latest run was formed (UTC)."
